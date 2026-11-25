@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Screenly - Movie Discovery</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+      body 
+      {
+        background-color: #f8f7f3;
+        color: #292d42;
+        font-family: Arial, sans-serif;
+      }
+
+      .navbar 
+      {
+        background-color: #ffffff;
+        border-bottom: 1px solid #e9e5dd;
+      }
+
+      .navbar-brand 
+      {
+        font-size: 27px;
+        font-weight: bold;
+        color: #6554a4;
+      }
+
+      .nav-link 
+      {
+        color: #33364b;
+
+
+        font-weight: 600;
+      }
+
+      .nav-link:hover 
+      {
+        color: #8c70c9;
+      }
+
+      .hero 
+      {
+        background: linear-gradient(110deg, #e8e2f7, #fce8dc, #fff1c9);
+        padding: 75px 20px;
+        text-align: center;
+      }
+
+      .hero h1 
+      {
+        font-size: 48px;
+        font-weight: bold;
+        color: #292d42;
+      }
+      .hero span 
+      {
+        color:#7561b4;
+      }
+
+      .hero p 
+      {
+        color: #55566a;
+        font-size: 17px;
+      }
+
+      .search-box 
+      {
+        max-width: 550px;
+        margin: 25px auto;
+      }
+
+      .section-title
+      {
+        font-size: 27px;
+        font-weight: bold;
+        color: #6554a4;
+        margin-bottom: 25px;
+      }
+
+      .movie-section 
+      {
+        padding: 35px 0;
+      }
+      .movie-row 
+      {
+        display:flex;
+        gap:25px;
+        padding:22px 0;
+        border-bottom: 1px solid #e2ded6;
+        align-items:flex-start;
+      }
+
+      .movie-poster 
+      {
+        width: 155px;
+        height: 220px;
+        object-fit:cover;
+        border-radius: 10px;
+        flex-shrink: 0;
+        box-shadow:0 4px 12px #00000018;
+      }
+
+      .movie-info 
+      {
+        flex:1;
+      }
+
+      .movie-info h3 
+      {
+        font-size:23px;
+        font-weight: bold;
+        color: #292d42;
+      }
+      .rating 
+      {
+        color: #d79527;
+        font-weight: bold;
+        font-size:16px;
+      }
+
+      .genre 
+      {
+        display: inline-block;
+        background-color: #e9e3f8;
+        color: #6554a4;
+        padding: 5px 12px;
+        border-radius:20px;
+        font-size: 12px;
+        margin: 3px;
+      }
+      .movie-description 
+      {
+        color: #606174;
+        line-height:1.6;
+        margin-top: 12px;
+      }
+
+      details 
+      {
+        margin-top:12px;
+      }
+
+      summary 
+      {
+        color: #7561b4;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .details-content 
+      {
+        background-color: #ffffff;
+        padding: 15px;
+        border-left:4px solid #b7a6e8;
+        margin-top: 12px;
+        border-radius: 5px;
+        line-height:1.7;
+      }
+      .details-content strong 
+      {
+        color: #7386e4;
+      }
+
+      .category-links 
+      {
+        text-align: center;
+        margin: 30px 0;
+      }
+
+      .category-links a 
+      {
+        display: inline-block;
+        text-decoration: none;
+        background: #e9e3f8;
+        color: #6554a4;
+        padding: 9px 18px;
+        margin: 5px;
+        border-radius: 25px;
+        font-weight: bold;
+      }
+
+      .about 
+      {
+        background: linear-gradient(110deg, #e8e2f7, #fce8dc);
+        padding: 40px;
+        border-radius: 15px;
+        text-align: center;
+        margin-top: 40px;
+      }
+
+      footer 
+      {
+        background-color: #0f9799;
+        color: white;
+        padding: 25px;
+        text-align: center;
+        margin-top: 50px;
+      }
+
+      @media (max-width: 576px) 
+      {
+        .hero h1 
+        {
+          font-size: 34px;
+        }
+        .movie-row 
+        {
+          gap: 14px;
+        }
+
+        .movie-poster 
+        {
+          width: 110px;
+          height: 160px;
+        }
+        .movie-info h3 
+        {
+          font-size: 18px;
+        }
+        .movie-description 
+        {
+          font-size: 13px;
+        }
+      }
+      *
+      {
+        box-sizing: border-box;
+      }
+      html,
+      body 
+      {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+      .movie-section 
+      {
+        width: 100%;
+      }
+      .movie-row 
+      {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 25px;
+        width: 100%;
+        min-width: 0;
+        padding: 24px 0;
+        border-bottom: 1px solid #e2ded6;
+      }
+      .movie-poster 
+      {
+        display: block;
+        flex: 0 0 155px;
+        width: 155px;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px #00000018;
+        background: #eee9e1;
+      }
+      .movie-info 
+      {
+        flex: 1 1 0;
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
+      .movie-info h3 
+      {
+        line-height: 1.3;
+      }
+      .movie-description 
+      {
+        max-width: 100%;
+      }
+      .details-content 
+      {
+        overflow-wrap: anywhere;
+      }
+      @media (max-width: 576px) 
+      {
+        .movie-row 
+        {
+          gap: 14px;
+        }
+        .movie-poster 
+        {
+          flex: 0 0 105px;
+          width: 105px;
+          height: 155px;
+        }
+        .movie-info h3 
+        
+        {
+          font-size: 18px;
+        }
+        .movie-description 
+        {
+          font-size: 13px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand" href="#">Screenly</a>
+        <div class="ms-auto">
+          <a class="nav-link d-inline-block mx-2" href="#home">Home</a>
+          <a class="nav-link d-inline-block mx-2" href="#movies">Movies</a>
+          <a class="nav-link d-inline-block mx-2" href="#about">About</a>
+        </div>
+      </div>
+    </nav>
+
+
+    <section class="hero" id="home">
+      <h1>Discover the World of <span>Cinema.</span></h1>
+      <p>Explore movies, discover actors and find your next favourite film.</p>
+      <div class="search-box">
+        <input class="form-control" placeholder="Search Your Favourite Movies" type="search" />
+      </div>
+    </section>
+    <div class="container category-links">
+      <a href="#bollywood">Bollywood</a>
+      <a href="#hollywood">Hollywood</a>
+      <a href="#anime">Anime</a>
+    </div>
+    <section class="container movie-section" id="hollywood">
+      <h2 class="section-title">🎬 Hollywood Movies</h2>
+      <div class="movie-row">
+        <img alt="Inception" class="movie-poster" src="https://image.tmdb.org/t/p/w500/oYuLEt3zVCKq57qu2F8dT7NIa6f.jpg" />
+        <div class="movie-info">
+          <h3>Inception (2010)</h3>
+          <p class="rating">★ 8.8 / 10</p>
+          <span class="genre">Sci-Fi</span>
+          <span class="genre">Action</span>
+          <span class="genre">Thriller</span>
+          <p class="movie-description">A skilled thief enters people's dreams to steal secrets. He is offered an unusual mission involving planting an idea inside someone's mind.</p>
+          <p><strong>Director:</strong> Christopher Nolan</p>
+          <details>
+            <summary>View Cast, Reviews &amp; More</summary>
+            <div class="details-content">
+              <p><strong>Cast:</strong> Leonardo DiCaprio, Joseph Gordon-Levitt, Elliot Page, Tom Hardy, Ken Watanabe.</p>
+              <p><strong>Runtime:</strong> 2 hours 28 minutes</p>
+              <p><strong>Release Date:</strong> 16 July 2010</p>
+              <p><strong>Review:</strong> A creative science-fiction movie with brilliant storytelling and stunning visuals.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+
+
+      <div class="movie-row">
+        <img alt="Dune Part Two" class="movie-poster" src="https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg" />
+        <div class="movie-info">
+          <h3>Dune: Part Two (2024)</h3>
+          <p class="rating">★ 8.5 / 10</p>
+          <span class="genre">Sci-Fi</span>
+          <span class="genre">Adventure</span>
+          <span class="genre">Drama</span>
+          <p class="movie-description">Paul Atreides joins the Fremen people while facing difficult choices about his future on Arrakis.</p>
+          <p><strong>Director:</strong> Denis Villeneuve</p>
+          <details>
+            <summary>View Cast, Reviews &amp; More</summary>
+            <div class="details-content">
+              <p><strong>Cast:</strong> Timothée Chalamet, Zendaya, Rebecca Ferguson, Javier Bardem, Austin Butler.</p>
+              <p><strong>Runtime:</strong> 2 hours 46 minutes</p>
+              <p><strong>Release Date:</strong> 1 March 2024</p>
+              <p><strong>Review:</strong> An epic science-fiction film with impressive visuals and performances.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+
+
+      <div class="movie-row">
+        <img alt="Avengers Endgame" class="movie-poster" src="https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg" />
+        <div class="movie-info">
+          <h3>Avengers: Endgame (2019)</h3>
+          <p class="rating">★ 8.4 / 10</p>
+          <span class="genre">Action</span>
+          <span class="genre">Adventure</span>
+          <span class="genre">Sci-Fi</span>
+          <p class="movie-description">The remaining Avengers unite for one final mission to reverse the damage caused by Thanos.</p>
+          <p><strong>Directors:</strong> Anthony Russo, Joe Russo</p>
+          <details>
+            <summary>View Cast, Reviews &amp; More</summary>
+            <div class="details-content">
+              <p><strong>Cast:</strong> Robert Downey Jr., Chris Evans, Mark Ruffalo, Chris Hemsworth, Scarlett Johansson.</p>
+              <p><strong>Runtime:</strong> 3 hours 1 minute</p>
+              <p><strong>Release Date:</strong> 26 April 2019</p>
+              <p><strong>Review:</strong> An emotional conclusion to a major superhero story.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+
+
+      <div class="movie-row">
+        <img alt="The Dark Knight" class="movie-poster" src="https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg" />
+        <div class="movie-info">
+          <h3>The Dark Knight (2008)</h3>
+          <p class="rating">★ 9.0 / 10</p>
+          <span class="genre">Action</span>
+          <span class="genre">Crime</span>
+          <span class="genre">Drama</span>
+          <p class="movie-description">Batman faces his greatest challenge when the Joker brings chaos to Gotham City.</p>
+          <p><strong>Director:</strong> Christopher Nolan</p>
+          <details>
+            <summary>View Cast, Reviews &amp; More</summary>
+            <div class="details-content">
+              <p><strong>Cast:</strong> Christian Bale, Heath Ledger, Aaron Eckhart, Gary Oldman, Michael Caine.</p>
+              <p><strong>Runtime:</strong> 2 hours 32 minutes</p>
+              <p><strong>Review:</strong> An unforgettable superhero crime thriller with outstanding performances.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+
+
+      <div class="movie-row">
+        <img alt="Oppenheimer" class="movie-poster" src="https://image.tmdb.org/t/p/w500/ptpr0kGAckfQkJeJIt8st5dglvd.jpg" />
+        <div class="movie-info">
+          <h3>Oppenheimer (2023)</h3>
+          <p class="rating">★ 8.3 / 10</p>
+          <span class="genre">Drama</span>
+          <span class="genre">History</span>
+          <span class="genre">Biography</span>
+          <p class="movie-description">The story of J. Robert Oppenheimer and his role in the development of the atomic bomb.</p>
+          <p><strong>Director:</strong> Christopher Nolan</p>
+          <details>
+            <summary>View Cast, Reviews &amp; More</summary>
+            <div class="details-content">
+              <p><strong>Cast:</strong> Cillian Murphy, Emily Blunt, Robert Downey Jr., Matt Damon, Florence Pugh.</p>
+              <p><strong>Runtime:</strong> 3 hours</p>
+              <p><strong>Review:</strong> A powerful historical drama with exceptional performances.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+
+
+      <div class="movie-row">
+        <img alt="Spider-Man No Way Home" class="movie-poster" src="https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg" />
+        <div class="movie-info">
+          <h3>Spider-Man: No Way Home (2021)</h3>
+          <p class="rating">★ 8.2 / 10</p>
+          <span class="genre">Action</span>
+          <span class="genre">Adventure</span>
+          <span class="genre">Sci-Fi</span>
+          <p class="movie-description">Peter Parker faces unexpected challenges when his identity becomes public.</p>
+          <p><strong>Director:</strong> Jon Watts</p>
+          <details>
+            <summary>View Cast, Reviews &amp; More</summary>
+            <div class="details-content">
+              <p><strong>Cast:</strong> Tom Holland, Zendaya, Benedict Cumberbatch, Jacob Batalon.</p>
+              <p><strong>Runtime:</strong> 2 hours 28 minutes</p>
+              <p><strong>Review:</strong> An exciting superhero adventure filled with memorable moments.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="container movie-section" id="anime">
+      <h2 class="section-title">🌸 Anime Movies</h2>
+      <div class="movie-row">
+        <img alt="Demon Slayer Mugen Train" class="movie-poster" src="https://image.tmdb.org/t/p/w500/h8Rb9gBr48ODIwYUttZNYeMWeUU.jpg" />
+        <div class="movie-info">
+          <h3>Demon Slayer: Mugen Train (2020)</h3>
+          <p class="rating">★ 8.2 / 10</p>
+          <span class="genre">Anime</span>
+          <span class="genre">Action</span>
+          <span class="genre">Fantasy</span>
+          <p class="movie-description">Tanjiro and his friends board a mysterious train to investigate a series of disappearances.</p>
+          <p><strong>Director:</strong> Haruo Sotozaki</p>
+          <details>
+            <summary>View Cast, Reviews &amp; More</summary>
+            <div class="details-content">
+              <p><strong>Voice Cast:</strong> Natsuki Hanae, Akari Kito, Hiro Shimono, Yoshitsugu Matsuoka.</p>
+              <p><strong>Runtime:</strong> 1 hour 57 minutes</p>
+              <p><strong>Review:</strong> Beautiful animation and an emotional fantasy adventure.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+
+
+      <div class="movie-row">
+        <img alt="A Silent Voice" class="movie-poster" src="https://image.tmdb.org/t/p/w500/tuFaWiqX0TXoWu7DGNcmX3UW7sT.jpg" />
+        <div class="movie-info">
+          <h3>A Silent Voice (2016)</h3>
+          <p class="rating">★ 8.2 / 10</p>
+          <span class="genre">Anime</span>
+          <span class="genre">Drama</span>
+          <p class="movie-description">A former student tries to reconnect with a deaf classmate and make amends for the past.</p>
+          <p><strong>Director:</strong> Naoko Yamada</p>
+          <details>
+            <summary>View Cast, Reviews &amp; More</summary>
+            <div class="details-content">
+              <p><strong>Voice Cast:</strong> Miyu Irino, Saori Hayami, Aoi Yuki, Kensho Ono.</p>
+              <p><strong>Runtime:</strong> 2 hours 10 minutes</p>
+              <p><strong>Review:</strong> A thoughtful and emotional story about friendship and understanding.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+
+
+      <div class="movie-row">
+        <img alt="Weathering With You" class="movie-poster" src="https://image.tmdb.org/t/p/w500/qgrk7r1fV4IjuoeiGS5HOhXNdLJ.jpg" />
+        <div class="movie-info">
+          <h3>Weathering With You (2019)</h3>
+          <p class="rating">★ 7.5 / 10</p>
+          <span class="genre">Anime</span>
+          <span class="genre">Fantasy</span>
+          <span class="genre">Romance</span>
+          <p class="movie-description">A young boy meets a girl who has the mysterious ability to control the weather.</p>
+          <p><strong>Director:</strong> Makoto Shinkai</p>
+          <details>
+            <summary>View Cast, Reviews &amp; More</summary>
+            <div class="details-content">
+              <p><strong>Voice Cast:</strong> Kotaro Daigo, Nana Mori, Tsubasa Honda.</p>
+              <p><strong>Runtime:</strong> 1 hour 52 minutes</p>
+              <p><strong>Review:</strong> Beautiful animation and a memorable fantasy story.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+
+
+      <div class="movie-row">
+        <img alt="Suzume" class="movie-poster" src="https://image.tmdb.org/t/p/w500/vIeu8WysZrTSFb2uhPViKjX9EcC.jpg" />
+        <div class="movie-info">
+          <h3>Suzume (2022)</h3>
+          <p class="rating">★ 7.6 / 10</p>
+          <span class="genre">Anime</span>
+          <span class="genre">Adventure</span>
+          <span class="genre">Fantasy</span>
+          <p class="movie-description">A teenage girl travels across Japan to close mysterious doors that cause disasters.</p>
+          <p><strong>Director:</strong> Makoto Shinkai</p>
+          <details>
+            <summary>View Cast, Reviews &amp; More</summary>
+            <div class="details-content">
+              <p><strong>Voice Cast:</strong> Nanoka Hara, Hokuto Matsumura, Eri Fukatsu.</p>
+              <p><strong>Runtime:</strong> 2 hours 2 minutes</p>
+              <p><strong>Review:</strong> A visually beautiful adventure with a fascinating story.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+
+
+      <div class="movie-row">
+        <img alt="Howl's Moving Castle" class="movie-poster" src="https://image.tmdb.org/t/p/w500/6pZgH10jhpToPcf0uvyTCPFhWpI.jpg" />
+        <div class="movie-info">
+          <h3>Howl's Moving Castle (2004)</h3>
+          <p class="rating">★ 8.2 / 10</p>
+          <span class="genre">Anime</span>
+          <span class="genre">Fantasy</span>
+          <span class="genre">Adventure</span>
+          <p class="movie-description">A young woman is transformed by a curse and finds herself in a magical moving castle.</p>
+          <p><strong>Director:</strong> Hayao Miyazaki</p>
+          <details>
+            <summary>View Cast, Reviews &amp; More</summary>
+            <div class="details-content">
+              <p><strong>Voice Cast:</strong> Chieko Baisho, Takuya Kimura, Akihiro Miwa.</p>
+              <p><strong>Runtime:</strong> 1 hour 59 minutes</p>
+              <p><strong>Review:</strong> A magical adventure filled with creativity and beautiful animation.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+     <section class="container movie-section" id="bollywood">
+      <h2 class="section-title">🎥 Bollywood Movies</h2>
+      <div class="movie-row"></div>
+      <div class="movie-row">
+        <img alt="Yeh Jawaani Hai Deewani" class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BMjU3ODNhYTYtMTRmYy00ODhiLTg2MzgtYWRhMzI0MGYwNTFjXkEyXkFqcGc@._V1_.jpg" />
+        <div class="movie-info">
+          <h3>Yeh Jawaani Hai Deewani (2013)</h3>
+          <p class="rating">★ 7.2 / 10</p>
+          <span class="genre">Romance</span>
+          <span class="genre">Drama</span>
+          <p class="movie-description">Four friends experience love, friendship and personal growth through different stages of life.</p>
+          <p><strong>Director:</strong> Ayan Mukerji</p>
+          <details>
+            <summary>View Cast, Reviews &amp; More</summary>
+            <div class="details-content">
+              <p><strong>Cast:</strong> Ranbir Kapoor, Deepika Padukone, Aditya Roy Kapur, Kalki Koechlin.</p>
+              <p><strong>Runtime:</strong> 2 hours 40 minutes</p>
+              <p><strong>Review:</strong> A colourful story about friendship, ambition and relationships.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+
+
+      <div class="movie-row">
+        <img alt="Chhichhore" class="movie-poster" src="https://image.tmdb.org/t/p/w500/cGDPQtQ5igtPMt3oJ6BCAor6dFp.jpg" />
+        <div class="movie-info">
+          <h3>Chhichhore (2019)</h3>
+          <p class="rating">★ 8.3 / 10</p>
+          <span class="genre">Comedy</span>
+          <span class="genre">Drama</span>
+          <p class="movie-description">A group of college friends look back on their student days and the importance of friendship.</p>
+          <p><strong>Director:</strong> Nitesh Tiwari</p>
+          <details>
+            <summary>View Cast, Reviews &amp; More</summary>
+            <div class="details-content">
+              <p><strong>Cast:</strong> Sushant Singh Rajput, Shraddha Kapoor, Varun Sharma, Naveen Polishetty.</p>
+              <p><strong>Runtime:</strong> 2 hours 23 minutes</p>
+              <p><strong>Review:</strong> A heartfelt film about friendship and learning from failure.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+    
+    <section class="container" id="about">
+      <div class="about">
+        <h2 class="section-title">About Screenly</h2>
+        <p>Screenly is a movie discovery platform designed for movie lovers. Explore Hollywood, Bollywood and Anime movies in one place. Discover movie ratings, stories, cast members, directors and reviews. Our goal is to make movie discovery simple and enjoyable.</p>
+      </div>
+    </section>
+    <footer>
+      <h4>Screenly</h4>
+      <p>Explore Movies. Discover Stories. Enjoy Cinema.</p>
+      <p>© 2026 Screenly | All Rights Reserved</p>
+    </footer>
+  </body>
+</html>
